@@ -25,7 +25,7 @@ class CryptoDummy:
          with open(file, 'r') as f:
             return f.read()
         except Exception as e:
-            print(e)
+            print(f"Erro ao carregar_chave:{e}")
             return 0
     
     def gerarCifra(self, texto:str, file:str):
@@ -37,10 +37,8 @@ class CryptoDummy:
                 print("Não existe uma chave para criptografar")
                 return 0
             self.textoCifrado = bytes([(b+chave) % 256 for b in texto])
-            return self.textoCifrado
         except Exception as e:
-            print(f"Erro:{e}")
-            return 0
+            print(f"Erro decifrar texto:{e}")
         
     def gerarDecifra(self, cifrado:bytes, file:str):
         """Gerar a decifra a partir do texto e da chave"""
@@ -52,11 +50,17 @@ class CryptoDummy:
             self.textoDecifrado = bytes([(b-chave) % 256 for b in cifrado])
             return self.textoDecifrado
         except Exception as e:
-            print(f"Erro:{e}")
+            print(f"Erro ao decifrar texto:{e}")
             return 0
 
     def get_texto_cifrado(self):
+        """
+        Retorna o texto cifrado em formato string
+        """
         return self.textoCifrado
 
     def get_texto_decifrado(self):
+        """
+        Retorna o texto decifrado em formato string
+        """
         return self.textoDecifrado.decode("utf-8")
