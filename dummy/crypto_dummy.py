@@ -1,66 +1,92 @@
+"""Algoritmo de criptografia utilizando cifra de César"""
 import random
 
 
 class CryptoDummy:
-    """ "
-    classe para fazer a criptografia de forma burra
-    """
-
     def __init__(self) -> None:
+        """
+        Classe para fazer a criptografia de forma burra
+
+        params:
+            - textoCifrado: Armazena o texto após a cifragem
+            - textoDecifrado: Armazena o texto decifrado
+        """
         self.textoCifrado = None
         self.textoDecifrado = None
 
-    def gerarChave(self, file: str):
-        """Gerar a chave de criptografia"""
-        dk = random.randint(1, 100)
-        try:
-            with open(file, "w") as f:
-                f.write(str(dk))
-        except Exception as e:
-            print(f"Erro ao gerar chave:{e}")
+    @staticmethod
+    def create_key(file_key: str):
+        """
+        Função para gerar a chave para o alogirmos dummy e salvar em um arquivo
 
-    def carregarChave(self, file: str) -> int:
-        """Carregar a chave de criptografia"""
+        params:
+            - file_key: Caminho do arquivo onde está a chave de decifragem
+        """
+        key = random.randint(1, 100)
         try:
-            with open(file, "r") as f:
-                return f.read()
-        except Exception as e:
-            print(f"Erro ao carregar_chave:{e}")
-            return 0
+            with open(file_key, "w") as f:
+                f.write(str(key))
+        except OSError as e:
+            print(f"Erro ao gerar chave (arquivo inválido ou problema de escrita): {e}")
 
-    def gerarCifra(self, texto: str, file: str):
-        """Gerar a cifra a partir do texto e da chave"""
+    @staticmethod
+    def read_key(file_key: str) -> int:
+        """
+        Função para gerar a chave para o alogirmos dummy e salvar em um arquivo
+
+        params:
+            - file_key: Caminho do arquivo onde está a chave de decifragem
+        """
+        try:
+            with open(file_key, "r") as f:
+                return int(f.read())
+        except FileNotFoundError:
+            print(f"Arquivo de chave não encontrado: {file_key}")
+        except ValueError:
+            print(f"Chave inválida no arquivo: {file_key}")
+        except OSError as e:
+            print(f"Erro ao ler arquivo de chave: {e}")
+        return 0
+
+    def cipher(self, texto: str, file_key: str):
+        """
+        Gerar a cifra a partir do texto e da chave
+
+        params:
+            - texto (str): Mensagem que vai ser decifrada
+            - file_key (str): Caminho do arquivo onde está a chave de decifragem
+        """
         try:
             texto = texto.encode("utf-8")
-            chave = int(self.carregarChave(file))
-            if chave == 0:
+            key = self.read_key(file_key)
+            if key == 0:
                 print("Não existe uma chave para criptografar")
-                return 0
-            self.textoCifrado = bytes([(b + chave) % 256 for b in texto])
-        except Exception as e:
-            print(f"Erro decifrar texto:{e}")
+                raise ValueError
+            self.textoCifrado = bytes([(b + key) % 256 for b in texto])
+        except TypeError as e:
+            print(f"Erro ao criptografar: {e}")
 
-    def gerarDecifra(self, cifrado: bytes, file: str):
-        """Gerar a decifra a partir do texto e da chave"""
+    def decipher(self, cifrado: bytes, file_key: str):
+        """
+        Decifrando o texto cifrado
+
+        params:
+            - cifrado (bytes): Texto cifrado pelo algoritimo AES
+            - file_key (str): Caminho do arquivo onde está a chave de decifragem
+        """
         try:
-            chave = int(self.carregarChave(file))
-            if chave == 0:
+            key = self.read_key(file_key)
+            if key == 0:
                 print("Não existe uma chave para descifrar")
                 return 0
-            self.textoDecifrado = bytes([(b - chave) % 256 for b in cifrado])
-            return self.textoDecifrado
-        except Exception as e:
-            print(f"Erro ao decifrar texto:{e}")
-            return 0
+            self.textoDecifrado = bytes([(b - key) % 256 for b in cifrado])
+        except TypeError as e:
+            print(f"Erro ao descriptografar: {e}")
 
-    def get_texto_cifrado(self):
-        """
-        Retorna o texto cifrado em formato string
-        """
+    def get_texto_cifrado(self) -> bytes:
+        """Retorna o texto cifrado"""
         return self.textoCifrado
 
-    def get_texto_decifrado(self):
-        """
-        Retorna o texto decifrado em formato string
-        """
-        return self.textoDecifrado.decode("utf-8")
+    def get_texto_decifrado(self) -> bytes:
+        """Retorna o texto decifrado"""
+        return self.textoDecifrado

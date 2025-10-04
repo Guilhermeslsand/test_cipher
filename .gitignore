@@ -216,5 +216,11 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Chaves
-chave_aes.txt
-chave_dummy.txt
+aes.txt
+dummy.txt
+rsa_privada.txt
+rsa_publica.txt
+aes1.txt
+dummy1.txt
+rsa_privada1.txt
+rsa_publica1.txt
