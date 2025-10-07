@@ -1,0 +1,14 @@
+Texto sobre Criptografia
+
+A criptografia é a arte de proteger informações, transformando dados legíveis em algo incompreensível para quem não possui a chave correta.
+Ela é amplamente utilizada em comunicações digitais, sistemas bancários, redes sociais e até mesmo em aplicativos de mensagens.
+
+Existem dois tipos principais de criptografia: a simétrica e a assimétrica.
+Na criptografia simétrica, a mesma chave é usada tanto para cifrar quanto para decifrar os dados.
+Já na criptografia assimétrica, há um par de chaves — uma pública e uma privada — que trabalham em conjunto.
+
+Algoritmos como AES, DES, RSA e ChaCha20 são exemplos conhecidos, cada um com suas vantagens e características específicas.
+Independentemente do método utilizado, o objetivo é sempre o mesmo: garantir a confidencialidade, integridade e autenticidade das informações.
+
+Em um mundo cada vez mais conectado, compreender e aplicar a criptografia tornou-se essencial para proteger dados pessoais e corporativos.
+Sem ela, a privacidade digital seria apenas uma ilusão.
