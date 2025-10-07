@@ -1,7 +1,13 @@
 """Algoritmo de criptografia com chave simétrica"""
 import os
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cryptography.exceptions import InvalidTag
+
+from crypto_exceptions import (
+    DecryptionError,
+    EncryptionError,
+    KeyGenerationError,
+    KeyLoadError,
+)
 
 
 class CryptoAes:
@@ -29,10 +35,13 @@ class CryptoAes:
             with open(file_key, "wb") as f:
                 f.write(key)
         except OSError as e:
-            print(f"Erro ao salvar a chave no arquivo: {e}")
+            raise KeyGenerationError(f"Erro ao salvar chave no arquivo: {e}") from e
+
+        except Exception as e:
+            raise KeyGenerationError(f"Erro inesperado ao gerar chave{e}") from e
 
     @staticmethod
-    def read_key(file_key: str) -> bytes:
+    def read_key(file_key: str):
         """
         Função para ler a chave usada para decifrar
 
@@ -42,11 +51,12 @@ class CryptoAes:
         try:
             with open(file_key, "rb") as f:
                 return f.read()
-        except FileNotFoundError:
-            print(f"Arquivo de chave não encontrado: {file_key}")
-        except OSError as e:
-            print(f"Erro ao ler arquivo de chave: {e}")
-        return None
+        except FileNotFoundError as e:
+            raise KeyLoadError(f"Arquivo de chave não encontrado: {file_key}") from e
+        except (ValueError, TypeError) as e:
+            raise KeyLoadError(f"Arquivo de chave inválido ou corrompido: {e}") from e
+        except Exception as e:
+            raise KeyLoadError(f"Erro inesperado ao carregar chave: {e}") from e
 
     def cipher(self, texto: str, file_key: str):
         """
@@ -73,8 +83,14 @@ class CryptoAes:
             # Cifrar
             textoCifrado = aesgcm.encrypt(nonce, texto, None)
             self.textoCifrado = nonce + textoCifrado
+        except KeyLoadError:
+            raise
         except (ValueError, TypeError) as e:
-            print(f"Erro ao cifrar o texto: {e}")
+            raise EncryptionError(f"Erro ao cifrar texto: {e}") from e
+        except UnicodeEncodeError as e:
+            raise EncryptionError(f"Erro ao codificar texto em UTF-8: {e}") from e
+        except Exception as e:
+            raise EncryptionError(f"Erro inesperado durante cifragem: {e}") from e
 
     def decipher(self, cifrado: bytes, file_key: str):
         """
@@ -95,12 +111,14 @@ class CryptoAes:
             textoCifrado = cifrado[12:]
             self.textoDecifrado = aesgcm.decrypt(nonce, textoCifrado, None)
 
-        except InvalidTag:
-            print(
-                "Falha na autenticação do AES-GCM: dados alterados ou chave incorreta"
-            )
+        except KeyLoadError:
+            raise
         except (ValueError, TypeError) as e:
-            print(f"Erro ao decifrar o texto: {e}")
+            raise DecryptionError(
+                f"Erro ao decifrar texto (chave incorreta ou texto corrompido): {e}"
+            ) from e
+        except Exception as e:
+            raise DecryptionError(f"Erro inesperado durante decifragem: {e}") from e
 
     def get_texto_cifrado(self) -> bytes:
         """

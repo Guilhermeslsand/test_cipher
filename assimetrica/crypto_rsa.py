@@ -175,9 +175,6 @@ class CryptoRSA:
 
         try:
             key = self.read_private_key(file_private_key)
-            if not key:
-                print("Não existe um chave para decifrar")
-                raise ValueError
             self.textoDecifrado = key.decrypt(
                 cifrado,
                 padding.OAEP(
