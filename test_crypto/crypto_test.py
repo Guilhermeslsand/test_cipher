@@ -10,7 +10,6 @@ from dummy.crypto_dummy import CryptoDummy
 from assimetrica.crypto_rsa import CryptoRSA
 
 
-# https://portswigger.net/web-security
 class CryptoTest:
     def __init__(self, texto: str):
         """
