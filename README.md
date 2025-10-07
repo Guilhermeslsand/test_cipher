@@ -21,35 +21,20 @@ Este projeto implementa três algoritmos de criptografia diferentes:
 - **black** - Formatação de código
 
 ## 📁 Estrutura do Projeto
-## 📁 Estrutura do projeto
-📦 com.pratica2.clientecrud<br>
- ┣ 📂 model<br>
- ┃ ┗ 📜 Cliente.java<br>
- ┃    ↳ Define a estrutura do cliente (atributos: cpf, nome, email).<br>
- ┣ 📂 repository<br>
- ┃ ┗ 📜 ClienteRepository.java<br>
- ┃    ↳ Simula o "banco de dados em memória" (lista de clientes).<br>
- ┣ 📂 usecase<br>
- ┃ ┗ 📜 ClienteUseCase.java<br>
- ┃    ↳ Camada de lógica que conecta o controller ao repositório.<br>
- ┗ 📂 controller<br>
-   ┗ 📜 ClienteController.java<br>
-        ↳ Recebe as requisições HTTP e chama o usecase para executar as operações.<br>
 
-.
-┣ main.py # Script principal de execução
-┣ test_crypto/
-┃  ┗ crypto_test.py # Classe de testes dos algoritmos
-┣ dummy/
-┃ ┗ crypto_dummy.py # Implementação do algoritmo Dummy
-┣ simetrica/
-┃ ┗ crypto_aes.py # Implementação do AES
-┣ assimetrica/
-┃ ┗ crypto_rsa.py # Implementação do RSA
-┣ crypto_exceptions.py # Exceções customizadas
-┣ requirements.txt # Dependências do projeto
-┣ .pre-commit-config.yaml # Configuração do pre-commit
-┣ README.md # Este arquivo
+┣ main.py # Script principal de execução<br>
+┣ test_crypto/<br>
+┃  ┗ crypto_test.py # Classe de testes dos algoritmos<br>
+┣ dummy/<br>
+┃ ┗ crypto_dummy.py # Implementação do algoritmo Dummy<br>
+┣ simetrica/<br>
+┃ ┗ crypto_aes.py # Implementação do AES<br>
+┣ assimetrica/<br>
+┃ ┗ crypto_rsa.py # Implementação do RSA<br>
+┣ crypto_exceptions.py # Exceções customizadas<br>
+┣ requirements.txt # Dependências do projeto<br>
+┣ .pre-commit-config.yaml # Configuração do pre-commit<br>
+┣ README.md # Este arquivo<br>
 
 ## 🚀 Como Executar
 
